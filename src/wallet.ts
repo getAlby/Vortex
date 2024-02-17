@@ -2,6 +2,7 @@ import { webln } from "@getalby/sdk";
 import { getPreferenceValues } from "@raycast/api";
 import "websocket-polyfill";
 import * as crypto from "crypto";
+// eslint-disable-next-line
 globalThis.crypto = crypto as any;
 
 interface Preferences {
