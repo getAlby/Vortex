@@ -2,9 +2,9 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "vortex",
   "title": "Vortex",
-  "description": "Use your bitcoin ightning wallet through Nostr Wallet Connect.",
+  "description": "The fastest way to use bitcoin on macOS",
   "icon": "vortex.png",
-  "author": "jakub_szwedo",
+  "author": "saunter",
   "categories": ["Finance"],
   "license": "MIT",
   "preferences": [
@@ -18,18 +18,18 @@
   ],
   "commands": [
     {
-      "name": "pay",
-      "title": "Pay",
-      "keywords": ["pay", "wallet", "invoice", "lnurl", "lightning"],
-      "subtitle": "Pay Lightning Invoice",
-      "description": "Pay a Lightning Network invoice.",
+      "name": "send",
+      "title": "Send",
+      "keywords": ["pay", "send", "wallet", "invoice", "lnurl", "lightning"],
+      "subtitle": "Send to lightning address or pay lightning invoice",
+      "description": "Send to lightning address or pay lightning invoice",
       "icon": "send.png",
       "mode": "view",
       "script": "src/Pay.tsx",
       "arguments": [
         {
           "name": "input",
-          "placeholder": "Invoice or Lightning Address",
+          "placeholder": "address or invoice",
           "type": "text",
           "required": false
         }
@@ -38,9 +38,9 @@
     {
       "name": "balance",
       "title": "View Balance",
-      "keywords": ["balance", "wallet", "lightning"],
+      "keywords": ["balance", "wallet", "lightning", "vortex", "bitcoin"],
       "description": "Display your current wallet balance.",
-      "icon": "bitcoin.png",
+      "icon": "vortex.png",
       "mode": "view",
       "script": "src/ShowBalance.tsx"
     },
@@ -48,7 +48,7 @@
       "name": "createinvoice",
       "title": "Receive",
       "keywords": ["receive", "invoice", "wallet", "lightning"],
-      "description": "Create a new Lightning invoice",
+      "description": "Create a new lightning invoice",
       "icon": "receive.png",
       "mode": "view",
       "script": "src/CreateInvoice.tsx"
@@ -56,9 +56,9 @@
     {
       "name": "listtransactions",
       "title": "Recent Transactions",
-      "keywords": ["wallet", "payments", "lightning"],
+      "keywords": ["wallet", "payments", "lightning", "transactions"],
       "description": "Show recent transactions.",
-      "icon": "bitcoin.png",
+      "icon": "vortex.png",
       "mode": "view",
       "script": "src/ListTransactions.tsx"
     }
