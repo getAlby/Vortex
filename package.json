@@ -11,6 +11,7 @@
     {
       "name": "nwcurl",
       "description": "Your NWC wallet connection details",
+      "placeholder": "nostr+walletconnect://...",
       "type": "password",
       "required": true,
       "title": "NWC connection details"
