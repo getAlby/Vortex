@@ -1,0 +1,94 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "vortex",
+  "title": "Vortex",
+  "description": "Use your bitcoin ightning wallet through Nostr Wallet Connect.",
+  "icon": "vortex.png",
+  "author": "jakub_szwedo",
+  "categories": ["Finance"],
+  "license": "MIT",
+  "preferences": [
+    {
+      "name": "nwcurl",
+      "description": "Your NWC wallet connection details",
+      "type": "password",
+      "required": true,
+      "title": "NWC connection details"
+    }
+  ],
+  "commands": [
+    {
+      "name": "pay",
+      "title": "Pay",
+      "keywords": ["pay", "wallet", "invoice", "lnurl", "lightning"],
+      "subtitle": "Pay Lightning Invoice",
+      "description": "Pay a Lightning Network invoice.",
+      "icon": "send.png",
+      "mode": "view",
+      "script": "src/Pay.tsx",
+      "arguments": [
+        {
+          "name": "input",
+          "placeholder": "Invoice or Lightning Address",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "balance",
+      "title": "View Balance",
+      "keywords": ["balance", "wallet", "lightning"],
+      "description": "Display your current wallet balance.",
+      "icon": "bitcoin.png",
+      "mode": "view",
+      "script": "src/ShowBalance.tsx"
+    },
+    {
+      "name": "createinvoice",
+      "title": "Receive",
+      "keywords": ["receive", "invoice", "wallet", "lightning"],
+      "description": "Create a new Lightning invoice",
+      "icon": "receive.png",
+      "mode": "view",
+      "script": "src/CreateInvoice.tsx"
+    },
+    {
+      "name": "listtransactions",
+      "title": "Recent Transactions",
+      "keywords": ["wallet", "payments", "lightning"],
+      "description": "Show recent transactions.",
+      "icon": "bitcoin.png",
+      "mode": "view",
+      "script": "src/ListTransactions.tsx"
+    }
+  ],
+  "dependencies": {
+    "@getalby/lightning-tools": "^5.0.1",
+    "@getalby/sdk": "^3.2.3",
+    "@raycast/api": "^1.64.4",
+    "cross-fetch": "^4.0.0",
+    "qrcode": "^1.5.3",
+    "websocket-polyfill": "^0.0.3"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.6",
+    "@types/node": "^20.11.16",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "18.2.27",
+    "eslint": "^8.51.0",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": []
+}
