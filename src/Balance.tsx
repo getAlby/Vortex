@@ -5,12 +5,11 @@ import { fiat } from "@getalby/lightning-tools";
 import { connectWallet } from "./wallet";
 
 export default function ShowBalance() {
-  const [balance, setBalance] = useState<string | null>(null);
-  const [fiatBalance, setFiatBalance] = useState<string | null>(null);
+  const [balance, setBalance] = useState("");
+  const [fiatBalance, setFiatBalance] = useState("");
 
   const updateBalance = async () => {
-    const preferences = getPreferenceValues<{ currency: string }>();
-    const fiatCurrency = preferences.currency;
+    const fiatCurrency = getPreferenceValues<{ currency: string }>().currency;
 
     try {
       const nwc = await connectWallet(); // Connect and get the wallet instance
@@ -36,7 +35,8 @@ export default function ShowBalance() {
 
   return (
     <Detail
-      markdown={`# Wallet Balance\nYour balance is: ${balance} (${fiatBalance})`}
+      isLoading={!balance}
+      markdown={`# Wallet Balance\nYour balance is: ${balance} ${fiatBalance}`}
       actions={
         <ActionPanel>
           <Action title="Refresh" onAction={updateBalance} />
