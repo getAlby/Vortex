@@ -18,9 +18,9 @@
   ],
   "commands": [
     {
-      "name": "send",
+      "name": "pay",
       "title": "Send",
-      "keywords": ["pay", "send", "wallet", "invoice", "lnurl", "lightning"],
+      "keywords": ["send", "pay", "wallet", "invoice", "lnurl", "lightning"],
       "subtitle": "Send to lightning address or pay lightning invoice",
       "description": "Send to lightning address or pay lightning invoice",
       "icon": "send.png",
@@ -39,7 +39,7 @@
       "name": "balance",
       "title": "View Balance",
       "keywords": ["balance", "wallet", "lightning", "vortex", "bitcoin"],
-      "description": "Display your current wallet balance.",
+      "description": "Display your current wallet balance",
       "icon": "vortex.png",
       "mode": "view",
       "script": "src/ShowBalance.tsx"
@@ -57,7 +57,7 @@
       "name": "listtransactions",
       "title": "Recent Transactions",
       "keywords": ["wallet", "payments", "lightning", "transactions"],
-      "description": "Show recent transactions.",
+      "description": "Show recent transactions",
       "icon": "vortex.png",
       "mode": "view",
       "script": "src/ListTransactions.tsx"
