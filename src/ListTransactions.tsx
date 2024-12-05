@@ -1,7 +1,7 @@
 import "cross-fetch/polyfill";
 import { useEffect, useState } from "react";
 import { fiat } from "@getalby/lightning-tools";
-import { List, showToast, Toast, Icon, ActionPanel, Action, Color, getPreferenceValues } from "@raycast/api";
+import { Action, ActionPanel, Color, getPreferenceValues, Icon, List, showToast, Toast } from "@raycast/api";
 import { connectWallet } from "./wallet";
 import ConnectionError from "./ConnectionError";
 
@@ -35,6 +35,9 @@ export default function Transactions() {
   const [fiatBalance, setFiatBalance] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<unknown>(null);
+
+  const [detailsVisibility, setDetailsVisibility] = useState<boolean>(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -71,7 +74,15 @@ export default function Transactions() {
   }
 
   return (
-    <List isLoading={isLoading}>
+    <List
+      isLoading={isLoading}
+      isShowingDetail={detailsVisibility}
+      selectedItemId={selectedTransaction?.payment_hash}
+      onSelectionChange={(id) => {
+        const selected = transactions.find((t) => t.payment_hash === id) || null;
+        setSelectedTransaction(selected);
+      }}
+    >
       {!isLoading && (
         <List.Item
           key="balane"
@@ -87,8 +98,40 @@ export default function Transactions() {
             transaction.settled_at ? new Date(transaction.settled_at * 1000).toLocaleString() : ""
           }`}
           icon={transaction.type === "incoming" ? IncomingIcon : OutgoingIcon}
+          detail={
+            <List.Item.Detail
+              metadata={
+                <List.Item.Detail.Metadata>
+                  <List.Item.Detail.Metadata.Label
+                    title="Amount"
+                    text={
+                      (transaction.type === "incoming" ? "+" : "-") +
+                      `${new Intl.NumberFormat().format(transaction.amount)} sats`
+                    }
+                  />
+                  <List.Item.Detail.Metadata.Label
+                    title="Description"
+                    text={transaction.description || "No description"}
+                  />
+                  <List.Item.Detail.Metadata.Label
+                    title="Settled At"
+                    text={
+                      transaction.settled_at ? new Date(transaction.settled_at * 1000).toLocaleString() : "Not settled"
+                    }
+                  />
+                  <List.Item.Detail.Metadata.Label title="Payment Hash" text={transaction.payment_hash} />
+                  <List.Item.Detail.Metadata.Label title="Payment Preimage" text={transaction.preimage} />
+                  <List.Item.Detail.Metadata.Label title="Fees Paid" text={`${transaction.fees_paid} sats`} />
+                </List.Item.Detail.Metadata>
+              }
+            />
+          }
           actions={
             <ActionPanel title={`Payment ${transaction.description}`}>
+              <Action
+                title={detailsVisibility ? "Hide Details" : "See Details"}
+                onAction={() => setDetailsVisibility(!detailsVisibility)}
+              />
               <Action.CopyToClipboard title="Copy Preimage" content={transaction.preimage} />
               <Action.CopyToClipboard title="Copy Payment Hash" content={transaction.payment_hash} />
             </ActionPanel>
