@@ -68,21 +68,6 @@
       ]
     },
     {
-      "name": "balance",
-      "title": "View Balance",
-      "keywords": [
-        "balance",
-        "wallet",
-        "lightning",
-        "vortex",
-        "bitcoin"
-      ],
-      "description": "Display your current wallet balance",
-      "icon": "vortex.png",
-      "mode": "view",
-      "script": "src/ShowBalance.tsx"
-    },
-    {
       "name": "createinvoice",
       "title": "Receive",
       "keywords": [
