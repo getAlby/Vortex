@@ -4,6 +4,7 @@ import { fiat } from "@getalby/lightning-tools";
 import { Action, ActionPanel, Color, getPreferenceValues, Icon, List, showToast, Toast } from "@raycast/api";
 import { connectWallet } from "./wallet";
 import ConnectionError from "./ConnectionError";
+import getFiatValues from "./utils/getFiatValues";
 
 export type Transaction = {
   type: string;
@@ -17,6 +18,7 @@ export type Transaction = {
   settled_at: number;
   created_at: number;
   expires_at: number;
+  fiatAmount?: string;
   metadata?: Record<string, unknown>;
 };
 
@@ -35,7 +37,6 @@ export default function Transactions() {
   const [fiatBalance, setFiatBalance] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [connectionError, setConnectionError] = useState<unknown>(null);
-
   const [detailsVisibility, setDetailsVisibility] = useState<boolean>(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
@@ -45,7 +46,7 @@ export default function Transactions() {
         // Ensure the wallet is connected
         const nwc = await connectWallet();
 
-        showToast(Toast.Style.Animated, "Loading transactions...");
+        await showToast(Toast.Style.Animated, "Loading transactions...");
         const response = await nwc.listTransactions({});
         const balanceInfo = await nwc.getBalance(); // Fetch the balance from the connected wallet
         const fiatCurrency = getPreferenceValues<{ currency: string }>().currency;
@@ -54,15 +55,22 @@ export default function Transactions() {
           currency: fiatCurrency,
           locale: "en",
         });
+        const fiatBtcRate = await fiat.getFiatBtcRate(fiatCurrency);
+        const transactions = getFiatValues({
+          transactionArray: response.transactions,
+          currency: fiatCurrency,
+          rate: fiatBtcRate,
+        });
+
         setBalance(`${new Intl.NumberFormat().format(balanceInfo.balance)} sats`);
         setFiatBalance(fiatBalance);
-        setTransactions(response.transactions);
+        setTransactions(transactions);
         nwc.close();
-        showToast(Toast.Style.Success, "Loaded");
+        await showToast(Toast.Style.Success, "Loaded");
         setIsLoading(false);
       } catch (error) {
         setConnectionError(error);
-        showToast(Toast.Style.Failure, "Failed to fetch transactions");
+        await showToast(Toast.Style.Failure, "Failed to fetch transactions");
       }
     }
 
@@ -93,7 +101,7 @@ export default function Transactions() {
       {transactions.map((transaction) => (
         <List.Item
           key={transaction.payment_hash}
-          title={`${new Intl.NumberFormat().format(transaction.amount)} sats`}
+          title={`${new Intl.NumberFormat().format(transaction.amount)} sats (${transaction.fiatAmount ? transaction.fiatAmount : ""})`}
           subtitle={`${transaction.description ? `for ${transaction.description}` : ""} ${
             transaction.settled_at ? new Date(transaction.settled_at * 1000).toLocaleString() : ""
           }`}
@@ -109,6 +117,13 @@ export default function Transactions() {
                       `${new Intl.NumberFormat().format(transaction.amount)} sats`
                     }
                   />
+                  {transaction.fiatAmount && (
+                    <List.Item.Detail.Metadata.Label
+                      title="Fiat Amount"
+                      text={(transaction.type === "incoming" ? "+" : "-") + `${transaction.fiatAmount}`}
+                    />
+                  )}
+
                   <List.Item.Detail.Metadata.Label
                     title="Description"
                     text={transaction.description || "No description"}
