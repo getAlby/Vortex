@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { Form, ActionPanel, Action, Clipboard, getSelectedText, LaunchProps } from "@raycast/api";
 import { LightningAddress, Invoice } from "@getalby/lightning-tools";
 
-import ConnectionError from "./ConnectionError";
-import PayInvoice from "./PayInvoice";
-import PayToLightingAddress from "./PayLightningAddress";
-import { connectWallet } from "./wallet";
+import ConnectionError from "./components/ConnectionError";
+import PayInvoice from "./components/PayInvoice";
+import PayToLightingAddress from "./components/PayToLightningAddress";
+import { connectWallet } from "./utils/wallet";
 
 const LN_ADDRESS_REGEX =
   /^((?:[^<>()[\]\\.,;:\s@"]+(?:\.[^<>()[\]\\.,;:\s@"]+)*)|(?:".+"))@((?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(?:(?:[a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

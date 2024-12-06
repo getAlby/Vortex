@@ -97,6 +97,7 @@
     }
   ],
   "dependencies": {
+    "@cashu/cashu-ts": "^2.1.0",
     "@getalby/lightning-tools": "^5.0.3",
     "@getalby/sdk": "^3.5.1",
     "@raycast/api": "^1.74.1",

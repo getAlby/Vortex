@@ -2,8 +2,8 @@ import "cross-fetch/polyfill";
 import { useEffect, useState } from "react";
 import { fiat } from "@getalby/lightning-tools";
 import { Action, ActionPanel, Color, getPreferenceValues, Icon, List, showToast, Toast } from "@raycast/api";
-import { connectWallet } from "./wallet";
-import ConnectionError from "./ConnectionError";
+import { connectWallet } from "./utils/wallet";
+import ConnectionError from "./components/ConnectionError";
 import getFiatValues from "./utils/getFiatValues";
 
 export type Transaction = {
