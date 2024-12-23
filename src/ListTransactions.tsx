@@ -5,22 +5,7 @@ import { Action, ActionPanel, Color, getPreferenceValues, Icon, List, showToast,
 import { connectWallet } from "./utils/wallet";
 import ConnectionError from "./components/ConnectionError";
 import getFiatValues from "./utils/getFiatValues";
-
-export type Transaction = {
-  type: string;
-  invoice: string;
-  description: string;
-  description_hash: string;
-  preimage: string;
-  payment_hash: string;
-  amount: number;
-  fees_paid: number;
-  settled_at: number;
-  created_at: number;
-  expires_at: number;
-  fiatAmount?: string;
-  metadata?: Record<string, unknown>;
-};
+import { Transaction } from "./types";
 
 const IncomingIcon = {
   source: Icon.ArrowDown,

@@ -1,14 +1,14 @@
 import { setInterval } from "timers";
-import { useState, useRef, useEffect } from "react";
-import { Form, Detail, ActionPanel, Action, Icon, showToast, environment, Toast } from "@raycast/api";
+import { useEffect, useRef, useState } from "react";
+import { Action, ActionPanel, Detail, environment, Form, Icon, LaunchProps, showToast, Toast } from "@raycast/api";
 import { toDataURL } from "qrcode";
 import { webln } from "@getalby/sdk";
 
 import ConnectionError from "./components/ConnectionError";
 import { connectWallet } from "./utils/wallet";
 
-export default function CreateInvoice() {
-  const [amount, setAmount] = useState("");
+export default function CreateInvoice(props: LaunchProps<{ arguments: Arguments.Createinvoice }>) {
+  const [amount, setAmount] = useState(props.arguments.input);
   const [description, setDescription] = useState("");
   const [invoice, setInvoice] = useState<string | undefined>();
   const [invoiceMarkdown, setInvoiceMarkdown] = useState<string | undefined>();
