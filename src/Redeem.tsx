@@ -152,8 +152,8 @@ export default function Redeem(props: LaunchProps<{ arguments: Arguments.Redeem 
     </>
   );
 }
-
-const isValidLNURLWithdraw = (data: any): data is ParsedLNURLData => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isValidLNURLWithdraw = (data:any): data is ParsedLNURLData => {
   return (
     data &&
     typeof data.callback === "string" &&
