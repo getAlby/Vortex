@@ -115,7 +115,7 @@
         "token"
       ],
       "description": "Redeem sats from lnurl voucher or cashu token",
-      "icon": "withdraw.svg",
+      "icon": "withdraw.png",
       "mode": "view",
       "script": "src/Redeem.tsx",
       "arguments": [
