@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Form, ActionPanel, Action, showToast, Toast, popToRoot } from "@raycast/api";
 import { Invoice } from "@getalby/lightning-tools";
 
-import { connectWallet } from "./wallet";
+import { connectWallet } from "../utils/wallet";
 
 export default function PayInvoice(props: { invoice: string }) {
   const [invoice, setInvoice] = useState(props.invoice);
@@ -24,7 +24,7 @@ export default function PayInvoice(props: { invoice: string }) {
     try {
       const invoice = new Invoice({ pr: bolt11 });
       if (!invoice.satoshi || invoice.satoshi < 1) {
-        showToast(Toast.Style.Failure, "Invoice does not contain an amount");
+        await showToast(Toast.Style.Failure, "Invoice does not contain an amount");
         return;
       }
       setAmount(`${new Intl.NumberFormat().format(invoice.satoshi)} sats`);
@@ -39,20 +39,20 @@ export default function PayInvoice(props: { invoice: string }) {
 
   const handlePayment = async () => {
     if (!amount) {
-      showToast(Toast.Style.Failure, `Invalid invoice?`);
+      await showToast(Toast.Style.Failure, `Invalid invoice?`);
       return;
     }
     try {
       setLoading(true);
       const nwc = await connectWallet(); // Ensure wallet is connected
-      showToast(Toast.Style.Animated, "Sending payment...");
+      await showToast(Toast.Style.Animated, "Sending payment...");
       const response = await nwc.sendPayment(invoice); // Send payment
-      showToast(Toast.Style.Success, "Payment successful", `Preimage: ${response.preimage}`);
-      popToRoot();
+      await showToast(Toast.Style.Success, "Payment successful", `Preimage: ${response.preimage}`);
+      await popToRoot();
       nwc.close();
     } catch (error) {
       console.error("Payment failed:", error);
-      showToast(Toast.Style.Failure, `Payment failed`);
+      await showToast(Toast.Style.Failure, `Payment failed`);
     } finally {
       setLoading(false);
     }
