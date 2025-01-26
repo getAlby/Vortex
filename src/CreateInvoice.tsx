@@ -18,7 +18,7 @@ import { webln } from "@getalby/sdk";
 import ConnectionError from "./components/ConnectionError";
 import { connectWallet } from "./utils/wallet";
 import { fiat } from "@getalby/lightning-tools";
-import 'cross-fetch/polyfill'
+import "cross-fetch/polyfill";
 
 export default function CreateInvoice(props: LaunchProps<{ arguments: Arguments.Createinvoice }>) {
   const [amount, setAmount] = useState<string>(props.arguments.input);
@@ -73,7 +73,7 @@ export default function CreateInvoice(props: LaunchProps<{ arguments: Arguments.
 
     try {
       setLoading(true);
-      let satoshis:string|number = amount;
+      let satoshis: string | number = amount;
       nwc.current = await connectWallet();
       await showToast(Toast.Style.Animated, "Requesting invoice...");
       if (!isSatDenomination) {
@@ -176,7 +176,11 @@ export default function CreateInvoice(props: LaunchProps<{ arguments: Arguments.
           }
           metadata={
             <Detail.Metadata>
-              <Detail.Metadata.Label title="Amount" text={`${amount} ${isSatDenomination?"sats":fiatCurrency}`} icon={Icon.Bolt} />
+              <Detail.Metadata.Label
+                title="Amount"
+                text={`${amount} ${isSatDenomination ? "sats" : fiatCurrency}`}
+                icon={Icon.Bolt}
+              />
               <Detail.Metadata.Label title="Description" text={description} />
               <Detail.Metadata.TagList title="Status">
                 <Detail.Metadata.TagList.Item

@@ -126,7 +126,7 @@ export default function PayToLightingAddress(props: { lightningAddress: string }
           <Action title={`Send Payment to ${lightningAddress} `} onAction={handleSendPayment} />
           <Action title={`Copy Invoice`} onAction={handleCopyInvoice} />
           <Action
-            title={`Swap Currency to ${isSatDenomination ?  fiatCurrency : "satoshi"}`}
+            title={`Swap Currency to ${isSatDenomination ? fiatCurrency : "satoshi"}`}
             shortcut={{ modifiers: ["cmd"], key: "s" }}
             onAction={() => setSatDenomination(!isSatDenomination)}
           />
